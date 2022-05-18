@@ -41,6 +41,7 @@ const incomeTaxCalc = (n) => {
     }
 };
 
+
 // #button クリックで各種計算実行
 button.addEventListener('click', (e) => {
     
@@ -50,30 +51,51 @@ button.addEventListener('click', (e) => {
     // #number の入力値を取得 文字列なので小数点切り捨てはMath.floorではなくparseIntで同時に数値に変換 基数が10進数なので小数点は切り捨てになる
     const number = parseInt(document.getElementById('number').value, 10);
     
-    // 1以上か判定
+    // 1未満ではないか判定
     if (number < 1) {
         alert("1以上の数値を入力して下さい"); // 1未満だとアラート表示
-        window.location.reload(); // 1未満でも処理が継続してしまうのでページをリロードしてリセットする
+        return false; // 処理を中断する
     }
     
-    // 万単位で入力されているので *10000 で実際の年収金額にする
+    // 年収を定数へ代入 万単位で入力されているので *10000 で実際の金額にする
     const income = number * 10000;
+    
     
     /* ここから会社員の場合の計算
     健康保険料 */
     const hoken1 = income * 0.05;
-    console.log(hoken1);
     
     // 厚生年金
     const nenkin1 = income * 0.0915;
-    console.log(nenkin1);
     
-    // 所得税
-    const deduction1 = deductionCalc1(income); //給与所得控除額を定数へ代入
-    const taxableIncome = income - deduction1 - hoken1 - nenkin1 - 480000; // 課税所得額を計算して定数へ代入
-    if (taxableIncome >= 1) {
-        console.log(Math.floor(incomeTaxCalc(taxableIncome))); //課税所得が1以上なら所得税計算 Math.floorで小数点切り捨て
-    } else {
-        console.log("所得税はありません"); //課税所得が1未満の場合の表示
+    // 所得税と住民税
+    const deduction1 = deductionCalc1(income); //給与所得控除額を計算して定数へ代入
+    const taxableIncome1 = income - deduction1 - hoken1 - nenkin1 - 430000; // 課税所得額(基礎控除は住民税用)を計算して定数へ代入
+    if (taxableIncome1 >= 60000) { //課税所得が6万以上なら所得税と住民税計算
+        const incomeTax1 = Math.floor(incomeTaxCalc(taxableIncome1 - 50000)); // 所得税計算 給与基礎控除の+5万を引いてから計算 Math.floorで小数点切り捨て
+        const residentTax1 = Math.floor(taxableIncome1 * 0.1); // 住民税計算
+    } else if (taxableIncome1 >= 10000) { //課税所得が1万以上なら住民税だけ計算
+        // console.log("所得税はありません");
+        const residentTax1 = Math.floor(taxableIncome1 * 0.1); // 住民税計算
+    } else { //課税所得が1未満ならどちらも無し
+        // console.log("住民税と所得税はありません");
     }
+    
+    
+    /* ここから個人事業主の場合の計算
+    国民健康保険料 */
+    const taxableIncome2 = income - 550000 - 430000; // 算定基礎額を計算して定数へ代入 55万は青色申告控除で43万は基礎控除(住民税用)
+    if (taxableIncome2 >= 10000) { // 算定基礎額が1万以上の場合
+        const hoken2 = Math.floor((taxableIncome2 * 0.103) + 62100); // 所得割額10.3%と均等額・平等額62100円を足して計算
+        console.log(hoken2);
+    } else { // 算定基礎額が1万未満の場合
+        const hoken2 = 62100; // 所得割額無しで均等額・平等額62100円のみ
+        console.log(hoken2);
+    }
+    
+    // 国民年金
+    const nenkin2 = 199080; // 2022年の国民年金額16590 * 12か月分
+    
+    // 所得税と住民税
+    
 });
