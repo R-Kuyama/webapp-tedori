@@ -108,11 +108,18 @@ input, select {
 }
 
 
+/* ここから .container */
+.container {
+    max-width: 980px;
+    width: 100%;
+    margin: 0 auto;
+}
+
 /* ここから header */
 header {
     text-align: center;
     background-color: #4f6d7a;
-    margin-bottom: 50px;
+    margin-bottom: 40px;
 }
 
 header h1 {
@@ -121,11 +128,15 @@ header h1 {
 }
 
 
-/* ここから .main */
+/* ここから .calc-wrapper */
+.calc-wrapper {
+    margin-bottom: 40px;
+}
+
 .top-text {
     text-align: center;
     line-height: 1.5;
-    margin: 0 20px 50px;
+    margin: 0 20px 40px;
 }
 
 .top-text p {

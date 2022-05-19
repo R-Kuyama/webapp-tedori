@@ -1,6 +1,5 @@
 // #button 要素を取得して定数へ代入
 const button = document.getElementById('button');
-const test = document.getElementById('test');
 
 // 給与所得控除額の計算を定義 if文だと見にくいのでswitch文
 const deductionCalc1 = (n) => {
@@ -40,6 +39,26 @@ const incomeTaxCalc = (n) => {
     }
 };
 
+// 所得税と住民税 後の計算で使うため戻り値で返してイベント内で定数へ代入する
+const irTaxCalc = (n) => {
+    if (n >= 60000) { //課税所得が6万以上なら所得税と住民税計算 配列で返す
+        return [
+            { i: Math.floor(incomeTaxCalc(n - 50000))}, // 所得税計算 所得税用基礎控除の+5万を引いてから計算 Math.floorで小数点切り捨て
+            { r: Math.floor(n * 0.1)} // 住民税計算
+        ];
+    } else if (n >= 10000) { //課税所得が1万以上なら住民税だけ計算
+        return [
+            { i: 0 }, // 所得税は無し
+            { r: Math.floor(n * 0.1)} // 住民税計算
+        ];
+    } else { //課税所得が1未満ならどちらも無し
+        return [
+            { i: 0 },
+            { r: 0 }
+        ];
+    }
+};
+
 // 国民健康保険の計算を定義 後の計算で使うため戻り値で返してイベント内で定数へ代入する
 const hoken2Calc = (n) => {
     if (n >= 10000) { // 算定基礎額が1万以上の場合
@@ -50,11 +69,17 @@ const hoken2Calc = (n) => {
 };
 
 
-// #button クリックで各種計算実行
+// #button クリックで各種計算実行してグラフ表示
 button.addEventListener('click', (e) => {
     
     // ページの更新を無効化
     e.preventDefault();
+    
+    // 未入力か判定
+    if (document.getElementById('number').value == "") {
+        alert("1以上の数値を入力して下さい"); // 未入力だとアラート表示
+        return false; // 処理を中断する
+    }
     
     // #number の入力値を取得 文字列なので小数点切り捨てはMath.floorではなくparseIntで同時に数値に変換 基数が10進数なので小数点は切り捨てになる
     const number = parseInt(document.getElementById('number').value, 10);
@@ -79,15 +104,10 @@ button.addEventListener('click', (e) => {
     // 所得税と住民税
     const deduction1 = deductionCalc1(income); //給与所得控除額を計算して定数へ代入
     const taxableIncome1 = income - deduction1 - hoken1 - nenkin1 - 430000; // 課税所得額(基礎控除は住民税用)を計算して定数へ代入
-    if (taxableIncome1 >= 60000) { //課税所得が6万以上なら所得税と住民税計算
-        const incomeTax1 = Math.floor(incomeTaxCalc(taxableIncome1 - 50000)); // 所得税計算 所得税用基礎控除の+5万を引いてから計算 Math.floorで小数点切り捨て
-        const residentTax1 = Math.floor(taxableIncome1 * 0.1); // 住民税計算
-    } else if (taxableIncome1 >= 10000) { //課税所得が1万以上なら住民税だけ計算
-        console.log("所得税はありません");
-        const residentTax1 = Math.floor(taxableIncome1 * 0.1); // 住民税計算
-    } else { //課税所得が1未満ならどちらも無し
-        console.log("住民税と所得税はありません");
-    }
+    const irTax1 = irTaxCalc(taxableIncome1); // 所得税と住民税計算 戻り値の配列を定数へ代入
+    
+    // 手取り額
+    const tedori1 = income - hoken1 - nenkin1 - irTax1[0].i - irTax1[1].r;
     
     
     /* ここから個人事業主の場合の計算
@@ -100,13 +120,40 @@ button.addEventListener('click', (e) => {
     
     // 所得税と住民税
     const taxableIncome3 = income - hoken2 - nenkin2 - 550000 - 430000; // // 課税所得額(基礎控除は住民税用)を計算して定数へ代入
-    if (taxableIncome3 >= 60000) { //課税所得が6万以上なら所得税と住民税計算
-        const incomeTax2 = Math.floor(incomeTaxCalc(taxableIncome3 - 50000)); // 所得税計算 所得税用基礎控除の+5万を引いてから計算 Math.floorで小数点切り捨て
-        const residentTax2 = Math.floor(taxableIncome3 * 0.1); // 住民税計算
-    } else if (taxableIncome3 >= 10000) { //課税所得が1万以上なら住民税だけ計算
-        console.log("所得税はありません");
-        const residentTax2 = Math.floor(taxableIncome3 * 0.1); // 住民税計算
-    } else { //課税所得が1未満ならどちらも無し
-        console.log("住民税と所得税はありません");
-    }
+    const irTax2 = irTaxCalc(taxableIncome3);
+    
+    // 手取り額
+    const tedori2 = income - hoken2 - nenkin2 - irTax2[0].i - irTax2[1].r;
+    
+    
+    // Googleチャートの設定
+    // Load the Visualization API and the corechart package.
+      google.charts.load('current', {'packages':['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.charts.setOnLoadCallback(drawChart1);
+
+      function drawChart1() {
+
+        // Create the data table.
+        var data = google.visualization.arrayToDataTable([
+            ['Work', '健康保険料', '年金', '住民税', '所得税', { role: 'annotation' } ], // 項目名の設定 role...は無いとエラーになる
+            ['会社員', hoken1, nenkin1, irTax1[0].i, irTax1[1].r, ''], // 項目ごとの値の設定 最後の空文字も無いとエラーになる
+            ['個人事業主', hoken2, nenkin2, irTax2[0].i, irTax2[1].r, ''], // ↑
+        ]);
+
+        // Set chart options
+        var options = {
+            'title':'各種支出額を比較', // グラフのタイトル
+            'height':600, // グラフの高さ
+            legend: { position: 'top', maxLines: 3 },
+            bar: { groupWidth: '60%' }, // バーの幅
+            isStacked: true, // 積み重ねグラフの設定
+        };
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart'));
+        chart.draw(data, options);
+      }
 });
+
