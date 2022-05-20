@@ -18,24 +18,25 @@ table, caption, tbody, tfoot, thead, tr, th, td,
 article, aside, canvas, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section, summary,
 time, mark, audio, video {
-    font-family: 'M PLUS Rounded 1c', sans-serif;    /* Google Fonts 追加 */
+    font-family: 'M PLUS Rounded 1c', sans-serif; /* Google Fonts 追加 */
     margin:0;
     padding:0;
     border:0;
     outline:0;
     vertical-align:baseline;
     background:transparent;
+    list-style: none; /* 追加 */
 }
 
 html {
-    font-size: 62.5%;    /* 追加 */
-    box-sizing: border-box;    /* 追加 */
+    font-size: 62.5%; /* 追加 */
+    box-sizing: border-box; /* 追加 */
 }
 
 body {
-    font-size: 1.6em;    /* 追加 */
+    font-size: 1.6em; /* 追加 */
     line-height:1;
-    background-color: #F2E9E4;    /* 追加 */
+    background-color: #F2E9E4; /* 追加 */
 }
 
 article,aside,details,figcaption,figure,
@@ -111,7 +112,7 @@ input, select {
 /* ここから .container */
 .container {
     max-width: 980px;
-    width: 100%;
+    padding: 0 18px;
     margin: 0 auto;
 }
 
@@ -142,7 +143,7 @@ header h1 {
 .top-text p {
     color: #666666;
     text-align: left;
-    display: inline-block;    /* ボーダーを要素の大きさに合わせるため */
+    display: inline-block; /* ボーダーを要素の大きさに合わせるため */
     border: 1px solid #4F6D7A;
     padding: 10px 0;
 }
@@ -152,29 +153,105 @@ header h1 {
 }
 
 .calc input {
-    border: none;    /* ボーダーを消す */
-    border-radius: 5px;    /* 角を丸める */
-    box-shadow: 0 0 0 1px #AAAAAA;    /* ボーダーの代わりに影を付ける（ボーダーだとfocus時にゆがむ） */
+    border: none; /* ボーダーを消す */
+    border-radius: 5px; /* 角を丸める */
+    box-shadow: 0 0 0 1px #AAAAAA; /* ボーダーの代わりに影を付ける（ボーダーだとfocus時にゆがむ） */
 }
 
 /* input 入力中の表示 */
 .calc input:focus {
     border: none;
-    outline: 0;    /* アウトラインはボーダーの外側に既定で表示されるラインで、↓ 影を付けているので不要 */
-    box-shadow: 0 0 3px 1px #FC7A1E;    /* 入力中は青色の影を表示する */
+    outline: 0; /* アウトラインはボーダーの外側に既定で表示されるラインで、↓ 影を付けているので不要 */
+    box-shadow: 0 0 3px 1px #FC7A1E; /* 入力中は青色の影を表示する */
 }
 
 .calc span {
-    vertical-align: middle;    /* フォームと文字の縦位置のずれを修正 */
+    vertical-align: middle; /* フォームと文字の縦位置のずれを修正 */
     margin-left: 3px;
 }
 
 .calc button {
     color: #fff;
     background-color: #4F6D7A;
-    cursor: pointer;    /* カーソルを乗せた時に指にする */
+    cursor: pointer; /* カーソルを乗せた時に指にする */
     border: none;
     border-radius: 5px;
     padding: 0 7px;
     margin-left: 10px;
+}
+
+/* ここから .result-wrapper */
+.result-wrapper {
+    background-color: #fff;
+    border-radius: 5px;
+}
+
+.result-title {
+    text-align: center;
+    padding:30px 0;
+}
+
+.result-title h2 {
+    font-size: 2.8rem;
+    letter-spacing: 0.08em;
+}
+
+.result-text {
+    display: flex;
+    padding-bottom: 30px;
+}
+
+.result-text span {
+    font-weight: bold; /* 金額だけ太字にする */
+    letter-spacing: 0.05em;
+}
+
+.left {
+    flex: 1;
+    padding: 0 15px;
+}
+
+.left h3 {
+    font-size: 2rem;
+    padding-bottom: 15px
+}
+
+.left li {
+    padding-bottom: 2px;
+    margin-bottom: 10px;
+}
+
+.right {
+    flex: 1;
+    padding: 0 15px;
+}
+
+.right h3 {
+    font-size: 2rem;
+    padding-bottom: 15px
+}
+
+.right li {
+    padding-bottom: 2px;
+    margin-bottom: 10px;
+}
+
+.black {
+    border-bottom: 2px solid #000;
+}
+
+.green {
+    border-bottom: 2px solid #109619;
+}
+
+.yellow {
+    border-bottom: 2px solid #fe9900;
+}
+
+.red {
+    border-bottom: 2px solid #dc3812;
+}
+
+.blue {
+    border-bottom: 2px solid #3266cc;
 }

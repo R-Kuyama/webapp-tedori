@@ -28,7 +28,32 @@
             </form>
         </div>
     </div>
-    <div class="chart-wrapper container">
+    <div class="result-wrapper container">
+        <div class="result-title">
+            <h2>年収<span id="income"></span>万円の計算結果</h2>
+        </div>
+        <div class="result-text">
+            <div class="left">
+                <h3>会社員の場合</h3>
+                <ul>
+                    <li class="black">手取り額：<span id="tedori1"></span>円</li>
+                    <li class="green">所得税：<span id="itax-1"></span>円</li>
+                    <li class="yellow">住民税：<span id="rtax-1"></span>円</li>
+                    <li class="red">厚生年金：<span id="nenkin1"></span>円</li>
+                    <li class="blue">健康保険料：<span id="hoken1"></span>円</li>
+                </ul>
+            </div>
+            <div class="right">
+                <h3>個人事業主の場合</h3>
+                <ul>
+                    <li class="black">手取り額：<span id="tedori2"></span>円</li>
+                    <li class="green">所得税：<span id="itax-2"></span>円</li>
+                    <li class="yellow">住民税：<span id="rtax-2"></span>円</li>
+                    <li class="red">国民年金：<span id="nenkin2"></span>円</li>
+                    <li class="blue">国民健康保険料：<span id="hoken2"></span>円</li>
+                </ul>
+            </div>
+        </div>
         <div id="chart"></div>
     </div>
     <script src="main.js"></script>

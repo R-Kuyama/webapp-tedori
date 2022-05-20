@@ -126,6 +126,19 @@ button.addEventListener('click', (e) => {
     const tedori2 = income - hoken2 - nenkin2 - irTax2[0].i - irTax2[1].r;
     
     
+    // 各種金額をHTMLへ入れる .toLocaleString('ja-JP')で金額として表示
+    document.getElementById('tedori1').textContent = tedori1.toLocaleString('ja-JP');
+    document.getElementById('itax-1').textContent = irTax1[0].i.toLocaleString('ja-JP');
+    document.getElementById('rtax-1').textContent = irTax1[1].r.toLocaleString('ja-JP');
+    document.getElementById('nenkin1').textContent = nenkin1.toLocaleString('ja-JP');
+    document.getElementById('hoken1').textContent = hoken1.toLocaleString('ja-JP');
+    document.getElementById('tedori2').textContent = tedori2.toLocaleString('ja-JP');
+    document.getElementById('itax-2').textContent = irTax2[0].i.toLocaleString('ja-JP');
+    document.getElementById('rtax-2').textContent = irTax2[1].r.toLocaleString('ja-JP');
+    document.getElementById('nenkin2').textContent = nenkin2.toLocaleString('ja-JP');
+    document.getElementById('hoken2').textContent = hoken2.toLocaleString('ja-JP');
+    
+    
     // Googleチャートの設定
     // Load the Visualization API and the corechart package.
       google.charts.load('current', {'packages':['corechart']});
@@ -138,16 +151,16 @@ button.addEventListener('click', (e) => {
         // Create the data table.
         var data = google.visualization.arrayToDataTable([
             ['Work', '健康保険料', '年金', '住民税', '所得税', { role: 'annotation' } ], // 項目名の設定 role...は無いとエラーになる
-            ['会社員', hoken1, nenkin1, irTax1[0].i, irTax1[1].r, ''], // 項目ごとの値の設定 最後の空文字も無いとエラーになる
-            ['個人事業主', hoken2, nenkin2, irTax2[0].i, irTax2[1].r, ''], // ↑
+            ['会社員', hoken1, nenkin1, irTax1[1].r, irTax1[0].i, ''], // 項目ごとの値の設定 最後の空文字も無いとエラーになる
+            ['個人事業主', hoken2, nenkin2, irTax2[1].r, irTax2[0].i, ''], // ↑
         ]);
 
         // Set chart options
         var options = {
-            'title':'各種支出額を比較', // グラフのタイトル
-            'height':600, // グラフの高さ
+            'title':'支出額をグラフで比較', // グラフのタイトル
+            height: 400, // グラフの高さ
             legend: { position: 'top', maxLines: 3 },
-            bar: { groupWidth: '60%' }, // バーの幅
+            bar: { groupWidth: '70%' }, // バーの幅
             isStacked: true, // 積み重ねグラフの設定
         };
 
