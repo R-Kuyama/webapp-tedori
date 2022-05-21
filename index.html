@@ -14,11 +14,11 @@
     <header>
         <h1>手取り一括計算</h1>
     </header>
-    <div class="calc-wrapper container">
+    <div id="calc-wrapper" class="container">
         <div class="top-text">
             <p>
-                年収を入力するだけで、手取り額・所得税・住民税・健康保険料・年金が一括で計算できます。<br>
-                会社員の場合と個人事業主の場合に分けてグラフ化することで、一目で違いが比較できます。
+                年収を入力するだけで、およその手取り額・所得税・住民税・個人事業税・健康保険料・年金が一括で計算できます。<br>
+                会社員の場合と個人事業主の場合に分けてグラフ化することで、違いが一目で比較できます。
             </p>
         </div>
         <div class="calc">
@@ -28,42 +28,56 @@
             </form>
         </div>
     </div>
-    <div class="result-wrapper container">
-        <div class="result-title">
-            <h2>年収<span id="income"></span>円の計算結果</h2>
-        </div>
-        <div class="result-text">
-            <div class="left">
-                <h3>会社員の場合</h3>
-                <div class="result">
-                    <p class="result-first">手取り額：<span id="tedori1"></span>円（<span id="tedori1-rate"></span>%）</p>
-                    <p>支出額合計：<span id="total1"></span>円（<span id="total1-rate"></span>%）</p>
+    <div class="container">
+        <div id="result-wrapper" class="result-wrapper">
+            <div class="result-title">
+                <h2>年収<span id="income"></span>円の計算結果</h2>
+            </div>
+            <div class="result-text">
+                <div class="left">
+                    <h3>会社員の場合</h3>
+                    <div class="result">
+                        <p class="result-first">手取り額：<span id="tedori1"></span>円（<span id="tedori1-rate"></span>%）</p>
+                        <p>支出額合計：<span id="total1"></span>円（<span id="total1-rate"></span>%）</p>
+                    </div>
+                    <ul>
+                        <li class="purple">個人事業税：<span id="none">-</span></li>
+                        <li class="green">所得税：<span id="itax-1"></span>円</li>
+                        <li class="yellow">住民税：<span id="rtax-1"></span>円</li>
+                        <li class="red">厚生年金：<span id="nenkin1"></span>円</li>
+                        <li class="blue">健康保険料：<span id="hoken1"></span>円</li>
+                    </ul>
                 </div>
+                <div class="right">
+                    <h3>個人事業主の場合</h3>
+                    <div class="result">
+                        <p class="result-first">手取り額：<span id="tedori2"></span>円（<span id="tedori2-rate"></span>%）</p>
+                        <p>支出額合計：<span id="total2"></span>円（<span id="total2-rate"></span>%）</p>
+                    </div>
+                    <ul>
+                        <li class="purple">個人事業税：<span id="pbtax"></span>円</li>
+                        <li class="green">所得税：<span id="itax-2"></span>円</li>
+                        <li class="yellow">住民税：<span id="rtax-2"></span>円</li>
+                        <li class="red">国民年金：<span id="nenkin2"></span>円</li>
+                        <li class="blue">国民健康保険料：<span id="hoken2"></span>円</li>
+                    </ul>
+                </div>
+            </div>
+            <div id="chart"></div>
+            <div class="caution">
                 <ul>
-                    <li class="purple">個人事業税：<span id="none">-</span></li>
-                    <li class="green">所得税：<span id="itax-1"></span>円</li>
-                    <li class="yellow">住民税：<span id="rtax-1"></span>円</li>
-                    <li class="red">厚生年金：<span id="nenkin1"></span>円</li>
-                    <li class="blue">健康保険料：<span id="hoken1"></span>円</li>
+                    <li>※健康保険は40歳以上の方対象の介護保険料は含んでいません。</li>
+                    <li>※市区町村ごとに異なる税率などは、2022年5月時点でのおよその全国平均で計算しています。</li>
+                    <li>※課税所得金額を求める際の控除には、給与所得控除・社会保険控除・基礎控除を含み、前年度も同じ年収額だった場合で計算しています。</li>
+                    <li>※個人事業主の場合は、給与所得控除の代わりに青色申告55万円として計算しています。</li>
+                    <li>※扶養に入っている方、もしくはご家族を扶養に入れている方は計算方法が異なる場合があります。</li>
                 </ul>
             </div>
-            <div class="right">
-                <h3>個人事業主の場合</h3>
-                <div class="result">
-                    <p class="result-first">手取り額：<span id="tedori2"></span>円（<span id="tedori2-rate"></span>%）</p>
-                    <p>支出額合計：<span id="total2"></span>円（<span id="total2-rate"></span>%）</p>
-                </div>
-                <ul>
-                    <li class="purple">個人事業税：<span id="pbtax"></span>円</li>
-                    <li class="green">所得税：<span id="itax-2"></span>円</li>
-                    <li class="yellow">住民税：<span id="rtax-2"></span>円</li>
-                    <li class="red">国民年金：<span id="nenkin2"></span>円</li>
-                    <li class="blue">国民健康保険料：<span id="hoken2"></span>円</li>
-                </ul>
-            </div>
         </div>
-        <div id="chart"></div>
     </div>
+    <footer>
+        <small>&copy; 2022 aaaaaa</small>
+    </footer>
     <script src="main.js"></script>
     <script src="https://www.gstatic.com/charts/loader.js"></script>
 </body>

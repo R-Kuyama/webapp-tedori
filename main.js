@@ -1,5 +1,6 @@
 // #button 要素を取得して定数へ代入
 const button = document.getElementById('button');
+const resultWrapper = document.getElementById('result-wrapper');
 
 // 給与所得控除額の計算を定義 if文だと見にくいのでswitch文
 const deductionCalc1 = (n) => {
@@ -178,32 +179,36 @@ button.addEventListener('click', (e) => {
     
     // Googleチャートの設定
     // Load the Visualization API and the corechart package.
-      google.charts.load('current', {'packages':['corechart']});
-
-      // Set a callback to run when the Google Visualization API is loaded.
-      google.charts.setOnLoadCallback(drawChart1);
-
-      function drawChart1() {
-
-        // Create the data table.
-        var data = google.visualization.arrayToDataTable([
-            ['Work', '健康保険料', '年金', '住民税', '所得税', '個人事業税', { role: 'annotation' } ], // 項目名の設定 role...は無いとエラーになる
-            ['会社員', hoken1, nenkin1, irTax1[1].r, irTax1[0].i, 0, ''], // 項目ごとの値の設定 最後の空文字も無いとエラーになる
-            ['個人事業主', hoken2, nenkin2, irTax2[1].r, irTax2[0].i, pbTax, ''], // ↑
-        ]);
-
-        // Set chart options
-        var options = {
-            'title':'支出額をグラフで比較', // グラフのタイトル
-            height: 400, // グラフの高さ
-            legend: { position: 'top', maxLines: 3 },
-            bar: { groupWidth: '70%' }, // バーの幅
-            isStacked: true, // 積み重ねグラフの設定
-        };
-
-        // Instantiate and draw our chart, passing in some options.
-        var chart = new google.visualization.ColumnChart(document.getElementById('chart'));
-        chart.draw(data, options);
-      }
+    google.charts.load('current', {'packages':['corechart']});
+    
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.charts.setOnLoadCallback(drawChart1);
+    
+    function drawChart1() {
+    
+    // Create the data table.
+    var data = google.visualization.arrayToDataTable([
+        ['Work', '健康保険料', '年金', '住民税', '所得税', '個人事業税', { role: 'annotation' } ], // 項目名の設定 role...は無いとエラーになる
+        ['会社員', hoken1, nenkin1, irTax1[1].r, irTax1[0].i, 0, ''], // 項目ごとの値の設定 最後の空文字も無いとエラーになる
+        ['個人事業主', hoken2, nenkin2, irTax2[1].r, irTax2[0].i, pbTax, ''], // ↑
+    ]);
+    
+    // Set chart options
+    var options = {
+        'title':'支出額をグラフで比較', // グラフのタイトル
+        height: 400, // グラフの高さ
+        legend: { position: 'top', maxLines: 3 },
+        bar: { groupWidth: '70%' }, // バーの幅
+        isStacked: true, // 積み重ねグラフの設定
+    };
+    
+    // Instantiate and draw our chart, passing in some options.
+    var chart = new google.visualization.ColumnChart(document.getElementById('chart'));
+    chart.draw(data, options);
+    }
+    
+    
+    // result-wrapperを表示
+    resultWrapper.style.display = "block"; // .style.displayプロパティでnoneからblockに変更
 });
 

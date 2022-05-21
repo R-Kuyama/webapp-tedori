@@ -29,11 +29,13 @@ time, mark, audio, video {
 }
 
 html {
+    height: 100%; /* フッターを最下部に固定するため */
     font-size: 62.5%; /* 追加 */
     box-sizing: border-box; /* 追加 */
 }
 
 body {
+    height: 100%; /* フッターを最下部に固定するため */
     color: #555555; /* 追加 */
     font-size: 1.6em; /* 追加 */
     line-height:1;
@@ -113,8 +115,8 @@ input, select {
 /* ここから .container */
 .container {
     max-width: 980px;
-    padding: 0 18px;
-    margin: 0 auto;
+    padding: 0 10px;
+    margin: 0 auto 40px;
 }
 
 /* ここから header */
@@ -131,21 +133,17 @@ header h1 {
 
 
 /* ここから .calc-wrapper */
-.calc-wrapper {
-    margin-bottom: 40px;
-}
-
 .top-text {
     text-align: center;
     line-height: 1.5;
-    margin: 0 20px 40px;
+    margin-bottom: 40px;
 }
 
 .top-text p {
     text-align: left;
-    display: inline-block; /* ボーダーを要素の大きさに合わせるため */
     border: 1px solid #4F6D7A;
-    padding: 10px 0;
+    border-radius: 5px; /* 角を丸める */
+    padding: 10px 15px;
 }
 
 .calc {
@@ -156,13 +154,14 @@ header h1 {
     border: none; /* ボーダーを消す */
     border-radius: 5px; /* 角を丸める */
     box-shadow: 0 0 0 1px #AAAAAA; /* ボーダーの代わりに影を付ける（ボーダーだとfocus時にゆがむ） */
+    padding: 3px 3px;
 }
 
 /* input 入力中の表示 */
 .calc input:focus {
     border: none;
     outline: 0; /* アウトラインはボーダーの外側に既定で表示されるラインで、↓ 影を付けているので不要 */
-    box-shadow: 0 0 3px 1px #FC7A1E; /* 入力中は青色の影を表示する */
+    box-shadow: 0 0 3px 1px #FC7A1E; /* 入力中はオレンジ色の影を表示する */
 }
 
 .calc span {
@@ -174,14 +173,21 @@ header h1 {
     color: #fff;
     background-color: #4F6D7A;
     cursor: pointer; /* カーソルを乗せた時に指にする */
-    border: none;
+    border: 1px solid #4F6D7A;
     border-radius: 5px;
     padding: 0 7px;
-    margin-left: 10px;
+    margin-left: 8px;
+    transition: .3s; /* ホバー時に0.3秒かけてアニメーションする */
 }
 
-/* ここから .result-wrapper */
-.result-wrapper {
+.calc button:hover { /* ホバー時はカラーを反転する */
+    color: #4F6D7A;
+    background-color: #fff;
+}
+
+/* ここから #result-wrapper */
+#result-wrapper {
+    display: none;
     background-color: #fff;
     border-radius: 5px;
 }
@@ -260,4 +266,21 @@ header h1 {
 
 .blue {
     border-bottom: 2px solid #3266cc;
+}
+
+.caution {
+    font-size: 1.2rem;
+    line-height: 1.8rem;
+    padding: 0 15px 5px;
+}
+
+
+/* ここから footer */
+footer {
+    color: #fff;
+    text-align: center;
+    background-color: #4f6d7a;
+    position: sticky; /* フッターを最下部に固定するため */
+    top: 100vh; /* フッターを最下部に固定するため */
+    padding: 20px 0;
 }
