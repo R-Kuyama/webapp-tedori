@@ -34,6 +34,7 @@ html {
 }
 
 body {
+    color: #555555; /* 追加 */
     font-size: 1.6em; /* 追加 */
     line-height:1;
     background-color: #F2E9E4; /* 追加 */
@@ -141,7 +142,6 @@ header h1 {
 }
 
 .top-text p {
-    color: #666666;
     text-align: left;
     display: inline-block; /* ボーダーを要素の大きさに合わせるため */
     border: 1px solid #4F6D7A;
@@ -196,12 +196,27 @@ header h1 {
     letter-spacing: 0.08em;
 }
 
+.result-title span {
+    color: #000000;
+}
+
 .result-text {
     display: flex;
     padding-bottom: 30px;
 }
 
+.result-text h3 {
+    font-size: 2rem;
+    padding-bottom: 12px
+}
+
+.result-text li {
+    padding-bottom: 2px;
+    margin-bottom: 10px;
+}
+
 .result-text span {
+    color: #000000;
     font-weight: bold; /* 金額だけ太字にする */
     letter-spacing: 0.05em;
 }
@@ -211,33 +226,24 @@ header h1 {
     padding: 0 15px;
 }
 
-.left h3 {
-    font-size: 2rem;
-    padding-bottom: 15px
-}
-
-.left li {
-    padding-bottom: 2px;
-    margin-bottom: 10px;
-}
-
 .right {
     flex: 1;
     padding: 0 15px;
 }
 
-.right h3 {
-    font-size: 2rem;
-    padding-bottom: 15px
-}
-
-.right li {
-    padding-bottom: 2px;
+.result {
+    background-color: #EEEEEE;
+    border-radius: 5px;
+    padding:4px 0;
     margin-bottom: 10px;
 }
 
-.black {
-    border-bottom: 2px solid #000;
+.result-first {
+    padding-bottom: 10px;
+}
+
+.purple {
+    border-bottom: 2px solid #98009a;
 }
 
 .green {

@@ -68,6 +68,15 @@ const hoken2Calc = (n) => {
     }
 };
 
+// 個人事業税の計算を定義 
+const pbTaxCalc = (n) => {
+    if (n >= 2900000) { // 年収290万以上で課税(290万控除) 一律5%
+        return (n - 2900000) * 0.05;
+    } else {
+        return 0;
+    }
+};
+
 
 // #button クリックで各種計算実行してグラフ表示
 button.addEventListener('click', (e) => {
@@ -106,8 +115,15 @@ button.addEventListener('click', (e) => {
     const taxableIncome1 = income - deduction1 - hoken1 - nenkin1 - 430000; // 課税所得額(基礎控除は住民税用)を計算して定数へ代入
     const irTax1 = irTaxCalc(taxableIncome1); // 所得税と住民税計算 戻り値の配列を定数へ代入
     
+    // 支出額合計
+    const total1 = hoken1 + nenkin1 + irTax1[0].i + irTax1[1].r;
+    
     // 手取り額
-    const tedori1 = income - hoken1 - nenkin1 - irTax1[0].i - irTax1[1].r;
+    const tedori1 = income - total1;
+    
+    // 支出額合計と手取り額の割合
+    const total1Rate = Math.round(total1 / income * 100); // Math.roundで小数があれば四捨五入する
+    const tedori1Rate = 100 - total1Rate;
     
     
     /* ここから個人事業主の場合の計算
@@ -122,17 +138,38 @@ button.addEventListener('click', (e) => {
     const taxableIncome3 = income - hoken2 - nenkin2 - 550000 - 430000; // // 課税所得額(基礎控除は住民税用)を計算して定数へ代入
     const irTax2 = irTaxCalc(taxableIncome3);
     
+    // 個人事業税
+    const pbTax = pbTaxCalc(income);
+    
+    // 支出額合計
+    const total2 = hoken2 + nenkin2 + pbTax + irTax2[0].i + irTax2[1].r;
+    
     // 手取り額
-    const tedori2 = income - hoken2 - nenkin2 - irTax2[0].i - irTax2[1].r;
+    const tedori2 = income - total2;
+    
+    // 支出額合計と手取り額の割合
+    const total2Rate = Math.round(total2 / income * 100); // Math.roundで小数があれば四捨五入する
+    const tedori2Rate = 100 - total2Rate;
     
     
     // 各種金額をHTMLへ入れる .toLocaleString('ja-JP')で金額として表示
+    // 年収
+    document.getElementById('income').textContent = income.toLocaleString('ja-JP');
+    // 会社員
     document.getElementById('tedori1').textContent = tedori1.toLocaleString('ja-JP');
+    document.getElementById('tedori1-rate').textContent = tedori1Rate;
+    document.getElementById('total1').textContent = total1.toLocaleString('ja-JP');
+    document.getElementById('total1-rate').textContent = total1Rate;
     document.getElementById('itax-1').textContent = irTax1[0].i.toLocaleString('ja-JP');
     document.getElementById('rtax-1').textContent = irTax1[1].r.toLocaleString('ja-JP');
     document.getElementById('nenkin1').textContent = nenkin1.toLocaleString('ja-JP');
     document.getElementById('hoken1').textContent = hoken1.toLocaleString('ja-JP');
+    // 個人事業主
     document.getElementById('tedori2').textContent = tedori2.toLocaleString('ja-JP');
+    document.getElementById('tedori2-rate').textContent = tedori2Rate;
+    document.getElementById('total2').textContent = total2.toLocaleString('ja-JP');
+    document.getElementById('total2-rate').textContent = total2Rate;
+    document.getElementById('pbtax').textContent = pbTax.toLocaleString('ja-JP');
     document.getElementById('itax-2').textContent = irTax2[0].i.toLocaleString('ja-JP');
     document.getElementById('rtax-2').textContent = irTax2[1].r.toLocaleString('ja-JP');
     document.getElementById('nenkin2').textContent = nenkin2.toLocaleString('ja-JP');
@@ -150,9 +187,9 @@ button.addEventListener('click', (e) => {
 
         // Create the data table.
         var data = google.visualization.arrayToDataTable([
-            ['Work', '健康保険料', '年金', '住民税', '所得税', { role: 'annotation' } ], // 項目名の設定 role...は無いとエラーになる
-            ['会社員', hoken1, nenkin1, irTax1[1].r, irTax1[0].i, ''], // 項目ごとの値の設定 最後の空文字も無いとエラーになる
-            ['個人事業主', hoken2, nenkin2, irTax2[1].r, irTax2[0].i, ''], // ↑
+            ['Work', '健康保険料', '年金', '住民税', '所得税', '個人事業税', { role: 'annotation' } ], // 項目名の設定 role...は無いとエラーになる
+            ['会社員', hoken1, nenkin1, irTax1[1].r, irTax1[0].i, 0, ''], // 項目ごとの値の設定 最後の空文字も無いとエラーになる
+            ['個人事業主', hoken2, nenkin2, irTax2[1].r, irTax2[0].i, pbTax, ''], // ↑
         ]);
 
         // Set chart options
