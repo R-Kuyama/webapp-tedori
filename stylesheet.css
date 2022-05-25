@@ -151,32 +151,36 @@ header h1 {
 }
 
 .calc input {
+    vertical-align: middle; /* フォームと文字の縦位置のずれを修正 */
     border: none; /* ボーダーを消す */
-    border-radius: 5px; /* 角を丸める */
-    box-shadow: 0 0 0 1px #AAAAAA; /* ボーダーの代わりに影を付ける（ボーダーだとfocus時にゆがむ） */
-    padding: 3px 3px;
+    border-radius: 0.5rem; /* 角を丸める */
+    box-shadow: 0 0 0 0.1rem #AAAAAA; /* ボーダーの代わりに影を付ける（ボーダーだとfocus時にゆがむ） */
+    height: 1.9rem;
+    padding: 0.3rem;
 }
 
 /* input 入力中の表示 */
 .calc input:focus {
     border: none;
     outline: 0; /* アウトラインはボーダーの外側に既定で表示されるラインで、↓ 影を付けているので不要 */
-    box-shadow: 0 0 3px 1px #FC7A1E; /* 入力中はオレンジ色の影を表示する */
+    box-shadow: 0 0 0.3rem 0.1rem #FC7A1E; /* 入力中はオレンジ色の影を表示する */
 }
 
 .calc span {
     vertical-align: middle; /* フォームと文字の縦位置のずれを修正 */
-    margin-left: 3px;
+    margin-left: 0.3rem;
 }
 
 .calc button {
     color: #fff;
     background-color: #4F6D7A;
+    vertical-align: middle; /* フォームと文字の縦位置のずれを修正 */
     cursor: pointer; /* カーソルを乗せた時に指にする */
-    border: 1px solid #4F6D7A;
-    border-radius: 5px;
-    padding: 0 7px;
-    margin-left: 8px;
+    border: 0.1rem solid #4F6D7A;
+    border-radius: 0.5rem;
+    height: 2.5rem;
+    padding: 0 0.7rem;
+    margin-left: 0.8rem;
     transition: .3s; /* ホバー時に0.3秒かけてアニメーションする */
 }
 
@@ -286,5 +290,9 @@ footer {
     background-color: #4f6d7a;
     position: sticky; /* フッターを最下部に固定するため */
     top: 100vh; /* フッターを最下部に固定するため */
-    padding: 20px 0;
+    padding: 0.5rem 0;
+}
+
+footer small {
+    font-size: 1.1rem;
 }
